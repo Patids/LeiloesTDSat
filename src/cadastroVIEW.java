@@ -1,3 +1,6 @@
+
+import javax.swing.JOptionPane;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -140,6 +143,7 @@ public class cadastroVIEW extends javax.swing.JFrame {
     }//GEN-LAST:event_cadastroNomeActionPerformed
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
+        if(!emptyFields()){
         ProdutosDTO produto = new ProdutosDTO();
         String nome = cadastroNome.getText();
         String valor = cadastroValor.getText();
@@ -149,7 +153,16 @@ public class cadastroVIEW extends javax.swing.JFrame {
         produto.setStatus(status);
         
         ProdutosDAO produtodao = new ProdutosDAO();
-        produtodao.cadastrarProduto(produto);
+        int resposta;
+        resposta = produtodao.cadastrarProduto(produto);
+        
+        if(resposta==1){
+                JOptionPane.showMessageDialog(null,"Dados incluidos com sucesso");
+                
+             }else{
+              JOptionPane.showMessageDialog(null,"Erro ao tentar inserir dados");
+        }
+        }
         
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
@@ -205,4 +218,16 @@ public class cadastroVIEW extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     // End of variables declaration//GEN-END:variables
+private boolean emptyFields(){
+        boolean empty = true;
+        
+        if(cadastroNome.getText().isEmpty()){
+            JOptionPane.showMessageDialog(rootPane, "Campo Nome não pode ser vazio.");
+        } else if(cadastroValor.getText().isEmpty()){ JOptionPane.showMessageDialog(rootPane, "Campo Valor não pode estar vazio.");
+        
+         }else{
+                empty = false;
+        }
+        return empty;
+        }
 }
