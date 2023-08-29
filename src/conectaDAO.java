@@ -18,11 +18,11 @@ import javax.swing.JOptionPane;
 public class conectaDAO {
     
     public Connection connectDB(){
-        //Connection conn =null;
+        //Connection conn = null;
         
         try {
         
-           Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/UC11","root", "Patty*970");
+           Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/UC11","root", "root");
             
            return conn;
         } catch (SQLException erro){

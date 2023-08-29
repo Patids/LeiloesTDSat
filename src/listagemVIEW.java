@@ -1,6 +1,8 @@
 
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -12,13 +14,34 @@ import javax.swing.table.DefaultTableModel;
  * @author Adm
  */
 public class listagemVIEW extends javax.swing.JFrame {
+    private void preencherTabela(){
+         ProdutosDAO produtosDAO = new ProdutosDAO();
+        // String nome = cadastroNome.getText();
+         List<ProdutosDTO> listagemProdutos = produtosDAO.listarProdutos();
+         
+          DefaultTableModel tabelaProdutos = (DefaultTableModel)listaProdutos.getModel();
+         
+          tabelaProdutos.setNumRows(0);
+        
+        listaProdutos.setRowSorter(new TableRowSorter(tabelaProdutos));
+        
+        for (ProdutosDTO c : listagemProdutos){
+            Object[] obj = new Object[] {
+            c.getId(),
+            c.getNome(),
+            c.getValor(),
+            c.getStatus(),
+            };
+            tabelaProdutos.addRow(obj);
+        }
+    }
 
     /**
      * Creates new form listagemVIEW
      */
     public listagemVIEW() {
         initComponents();
-        listarProdutos();
+        preencherTabela();
     }
 
     /**
@@ -208,7 +231,7 @@ public class listagemVIEW extends javax.swing.JFrame {
             DefaultTableModel model = (DefaultTableModel) listaProdutos.getModel();
             model.setNumRows(0);
             
-            ArrayList<ProdutosDTO> listagem = produtosdao.listarProdutos();
+            List<ProdutosDTO> listagem = produtosdao.listarProdutos();
             
             for(int i = 0; i < listagem.size(); i++){
                 model.addRow(new Object[]{
