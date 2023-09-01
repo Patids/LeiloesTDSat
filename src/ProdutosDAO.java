@@ -52,7 +52,7 @@ public class ProdutosDAO {
         
         conn = new conectaDAO().connectDB();
         
-        String sql = "SELECT * FROM produtos";
+        String sql = "SELECT * FROM produtos WHERE status = 'A Venda'";
         try{
            PreparedStatement stmt = this.conn.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
           // stmt.setString(1, "%" + nome + "%");
@@ -79,8 +79,51 @@ public class ProdutosDAO {
        // return listagem;
     }
     
+    public int venderProduto(ProdutosDTO produto){
+        
+        int status;
+         
+         try{
+               String sql = "UPDATE produtos SET status = 'Vendido' WHERE id = ?";
+               PreparedStatement stmt = this.conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+               stmt.setInt(1, produto.getId());
+               status = stmt.executeUpdate();
+               return status;
+           } catch (SQLException e){
+            System.out.println("Erro ao editar: " + e.getMessage());
+           return e.getErrorCode(); 
+           }
+     }
+    
+    public List<ProdutosDTO> listarProdutosVendidos(){
+    String sql = "SELECT * FROM produtos WHERE status = 'Vendido'";
+        try{
+           PreparedStatement stmt = this.conn.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+          // stmt.setString(1, "%" + nome + "%");
+           ResultSet rs = stmt.executeQuery();
+           
+           List<ProdutosDTO> listaProdutos = new ArrayList<>();
+           
+           while(rs.next()) {           
+           ProdutosDTO produto = new ProdutosDTO();
+                      
+           produto.setId(rs.getInt("id"));
+           produto.setNome(rs.getString("nome"));
+           produto.setValor(rs.getInt("valor"));
+           produto.setStatus(rs.getString("status")); 
+           listaProdutos.add(produto);
+                   }
+           return listaProdutos;
+           
+        }catch (Exception e) {
+            System.out.println("erro: " + e.getMessage());
+          return null;
+            
+        }
+    }
+}
     
     
         
-}
+
 
