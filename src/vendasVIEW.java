@@ -1,3 +1,8 @@
+
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -8,12 +13,30 @@
  * @author Marcos
  */
 public class vendasVIEW extends javax.swing.JFrame {
-
-    /**
-     * Creates new form vendasVIEW
-     */
+    private void preencherTabela(){
+         ProdutosDAO produtosDAO = new ProdutosDAO();
+        // String nome = cadastroNome.getText();
+         List<ProdutosDTO> listagemVendidos = produtosDAO.listarProdutosVendidos();
+         
+          DefaultTableModel tabelaVendidos = (DefaultTableModel)listaVendidos.getModel();
+         
+          tabelaVendidos.setNumRows(0);
+        
+        listaVendidos.setRowSorter(new TableRowSorter(tabelaVendidos));
+        
+        for (ProdutosDTO c : listagemVendidos){
+            Object[] obj = new Object[] {
+            c.getId(),
+            c.getNome(),
+            c.getValor(),
+            c.getStatus(),
+            };
+            tabelaVendidos.addRow(obj);
+        }
+    }
     public vendasVIEW() {
         initComponents();
+        preencherTabela();
     }
 
     /**
@@ -30,7 +53,7 @@ public class vendasVIEW extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        listaVendidos = new javax.swing.JTable();
         btnVoltar = new javax.swing.JButton();
 
         jButton1.setText("jButton1");
@@ -47,7 +70,7 @@ public class vendasVIEW extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setText("Lista Vendas");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        listaVendidos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -58,7 +81,7 @@ public class vendasVIEW extends javax.swing.JFrame {
                 "ID", "Nome", "Valor", "Status"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(listaVendidos);
 
         btnVoltar.setText("Voltar");
         btnVoltar.addActionListener(new java.awt.event.ActionListener() {
@@ -159,6 +182,6 @@ public class vendasVIEW extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable listaVendidos;
     // End of variables declaration//GEN-END:variables
 }
